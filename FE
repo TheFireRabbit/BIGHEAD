@@ -1,0 +1,58 @@
+local Size = 6 --max size is 6
+local SetHandleSize = true --if this false then put remove mesh to false so head can be big but wont collide
+local RemoveMesh = true
+local RemoveFace = false
+local RemoveSeats = true
+
+if Size > 6 then
+  Size = 6
+end
+
+local Player = game:GetService("Players").LocalPlayer
+local Character = Player.Character
+
+local Humanoid
+local Head
+
+if Character:FindFirstChildOfClass("Humanoid") then
+  Humanoid = Character:FindFirstChildOfClass("Humanoid")
+end
+if Character:FindFirstChild("Head") then
+  Head = Character.Head
+end
+
+if Humanoid.RigType == Enum.HumanoidRigType.R6 then return end
+
+Humanoid.HipHeight = 11
+
+for i = 1,Size do
+  if Head:FindFirstChild("OriginalSize") and Head:FindFirstChild("Mesh"):FindFirstChild("OriginalSize") then
+      if SetHandleSize then
+          Head:FindFirstChild("OriginalSize"):Destroy()
+      end
+      Head:FindFirstChild("Mesh"):FindFirstChild("OriginalSize"):Destroy()
+      wait()
+      if Humanoid:FindFirstChildOfClass("NumberValue") then
+          Humanoid:FindFirstChildOfClass("NumberValue"):Destroy()
+      end
+      wait(0.2)
+  end
+end
+
+if RemoveMesh then
+  if Head:FindFirstChild("Mesh") then
+      Head.Mesh:Destroy()
+  end
+end
+if RemoveFace then
+  if Head:FindFirstChild("face") then
+      Head.face:Destroy()
+  end
+end
+if RemoveSeats then
+  for _,x in next, workspace:GetDescendants() do
+      if x:IsA("Seat") then
+          x:Destroy()
+      end
+  end
+end
